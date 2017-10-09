@@ -10,24 +10,29 @@ var stringifyJSON = function(obj) {
     return '' + obj;
   }
 
+  var elements = [];
   if(Array.isArray(obj)) {
     if (!obj.length) {
       return '[]';
     }
-    var elements = [];
     for(var i = 0; i < obj.length; i++){
       elements.push(stringifyJSON(obj[i]));
     }
     return '[' + elements.join(',') + ']';
   } else {
     var counter = 0;
+    var stringifiable = true;
     for (var key in obj) {
       counter++;
+      if ((obj[key] !== null) 
+        && (obj[key] === undefined 
+        || obj[key].constructor === Function)) {
+        stringifiable = false;
+      }
     }
-    if (counter === 0) {
+    if (counter === 0 || !stringifiable) {
       return '{}';
     }
-    var elements = [];
     for(var key in obj){
       let formattedKey = stringifyJSON(key);
       let value = stringifyJSON(obj[key]);
