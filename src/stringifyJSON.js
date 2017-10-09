@@ -4,14 +4,12 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // your code goes here
-  //primitives
   if (typeof obj === 'string') {
     return '"' + obj + '"';
   } else if (obj === null || typeof obj !== 'object') {
     return '' + obj;
   }
-  //arrays
+
   if(Array.isArray(obj)) {
     if (!obj.length) {
       return '[]';
@@ -20,11 +18,8 @@ var stringifyJSON = function(obj) {
     for(var i = 0; i < obj.length; i++){
       elements.push(stringifyJSON(obj[i]));
     }
-    //iterate through the obj
-      //elements.push(stringifyJSON(obj[i]));
     return '[' + elements.join(',') + ']';
   } else {
-    //objects
     var counter = 0;
     for (var key in obj) {
       counter++;
@@ -32,7 +27,12 @@ var stringifyJSON = function(obj) {
     if (counter === 0) {
       return '{}';
     }
-    //iterate through the obj
-      //
+    var elements = [];
+    for(var key in obj){
+      let formattedKey = stringifyJSON(key);
+      let value = stringifyJSON(obj[key]);
+      elements.push(formattedKey + ':' + value);    
+    }
+    return '{' + elements.join(',') + '}';
   }
 };
