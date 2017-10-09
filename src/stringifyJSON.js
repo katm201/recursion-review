@@ -17,10 +17,22 @@ var stringifyJSON = function(obj) {
       return '[]';
     }
     var elements = [];
+    for(var i = 0; i < obj.length; i++){
+      elements.push(stringifyJSON(obj[i]));
+    }
     //iterate through the obj
       //elements.push(stringifyJSON(obj[i]));
     return '[' + elements.join(',') + ']';
   } else {
-    //
+    //objects
+    var counter = 0;
+    for (var key in obj) {
+      counter++;
+    }
+    if (counter === 0) {
+      return '{}';
+    }
+    //iterate through the obj
+      //
   }
 };
